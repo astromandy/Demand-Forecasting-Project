@@ -1,89 +1,98 @@
-# 🕒 Time Series Analysis and Demand Forecasting
+# Demand Forecasting with Time Series and Machine Learning
 
-## 📌 Project Overview
+This project explores weekly Walmart sales forecasting with a notebook-driven workflow that compares classical time series methods and machine learning models. The focus is on feature engineering, seasonality, holiday effects, and model comparison for retail demand planning.
 
-This project presents a comprehensive **time series analysis and demand forecasting** pipeline using historical Walmart sales data. The goal is to evaluate and compare multiple forecasting techniques, enabling accurate sales prediction and insightful business decisions.
+## What this project includes
 
----
+- Historical Walmart sales data
+- Feature engineering for weekly forecasting
+- Exploratory analysis of seasonality and promotions
+- Comparison across XGBoost, SARIMA, Prophet, and LSTM-based approaches
+- A notebook that consolidates the full analysis flow
 
-## 📊 Data Sources
+## Dataset
 
-- **train.csv**: Weekly sales by store and department
-- **stores.csv**: Metadata including store type and size
-- **features.csv**: External features such as temperature, fuel price, CPI, unemployment, and markdowns
+Files under `dataset/`:
 
-[Dataset from Kaggle](https://www.kaggle.com/datasets/aslanahmedov/walmart-sales-forecast/data)
+- `train.csv`
+- `test.csv`
+- `stores.csv`
+- `features.csv`
 
----
+Source: [Walmart Sales Forecast dataset on Kaggle](https://www.kaggle.com/datasets/aslanahmedov/walmart-sales-forecast/data)
 
-## 🧹 Data Preparation
+## Repository structure
 
-- Merging datasets on `Store` and `Date`
-- Handling missing and outlier values
-- Numeric encoding of categorical variables
-- Feature optimization for CPI, Unemployment, and MarkDowns
+```text
+Demand-Forecasting-Project/
+├── Demand Forecasting.ipynb
+├── dataset/
+├── requirements.txt
+├── requirements-deep-learning.txt
+├── requirements-prophet.txt
+└── README.md
+```
 
----
+## Main modeling ideas
 
-## 📈 Exploratory Data Analysis (EDA)
+- Temporal feature extraction from weekly sales dates
+- Lag and rolling-window features
+- Holiday-aware demand patterns
+- Comparison between statistical, boosting, and neural approaches
 
-- Seasonal trends around holidays (Thanksgiving, Black Friday, Christmas)
-- Quarterly/Monthly/yearly sales breakdown
-- Correlation between markdowns and store size
-- Minimal influence from external economic indicators
+## Reported outcome
 
----
+- `XGBoost` is the strongest overall performer in the current notebook
+- `SARIMA` provides a simpler baseline
+- `Prophet` adds interpretability and multi-seasonality support
+- `LSTM` captures longer temporal structure but requires a heavier environment
 
-## 🧰 Feature Engineering
+## Local setup
 
-- **Temporal features**: day, week, month, quarter, year
-- **Rolling stats**: moving average and std. deviation
-- **Lag features**: up to 52 weeks
-- **Holiday proximity**: days to/from holidays
-- **Sine/cosine seasonal encodings**
+1. Create and activate a virtual environment:
 
----
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-## 🤖 Modeling Approaches
+2. Install the base dependencies used by most of the notebook:
 
-### ✅ XGBoost
-- Highest accuracy (~98%)
-- Full use of engineered features
-- Best performer in RMSE, MAE, R²
+```bash
+pip install -r requirements.txt
+```
 
-### 📉 SARIMA
-- Univariate model on aggregated sales
-- Reasonable performance but outperformed by ML models
+3. Install optional model stacks only if you plan to run those sections:
 
-### 🧠 LSTM Neural Network
-- Complex architecture with seasonal/holiday features
-- Good accuracy and robust forecasts with uncertainty intervals
+```bash
+pip install -r requirements-prophet.txt
+pip install -r requirements-deep-learning.txt
+```
 
-### 📆 Facebook Prophet
-- Intuitive and interpretable
-- Handles multiple seasonalities and holidays
-- Good performance, though less accurate than XGBoost/LSTM
+4. Launch Jupyter:
 
----
+```bash
+jupyter notebook
+```
 
-## 📊 Model Comparison
+5. Open `Demand Forecasting.ipynb`.
 
-| Model    | RMSE ↓ | MAE ↓ | R² ↑ |
-|----------|--------|-------|------|
-| XGBoost | ✅ Best | Best  | Best |
-| LSTM    | High   | High  | High |
-| Prophet | Medium | Medium| Medium |
-| SARIMA  | Low    | Low   | Low  |
+## Dependency notes
 
----
+- `Prophet` can require additional local build tooling depending on your Python version
+- `TensorFlow` is optional here because it is only needed for the LSTM section
+- Using separate requirement files keeps the notebook easier to start on fresh machines
 
-## 📝 Conclusions
+## Portfolio talking points
 
-- **XGBoost** is the best model for this data
-- Feature engineering plays a critical role in performance
-- Sales are highly seasonal and promotion-driven
-- Future improvements could include real-time pipelines and external economic APIs
+- Strong retail forecasting use case with real business relevance
+- Combines feature engineering with multiple forecasting paradigms
+- Shows practical tradeoffs between interpretability, complexity, and accuracy
+- Useful example of notebook-based experimentation for demand planning
 
----
+## Recommended next improvements
 
-
+- Export final evaluation tables and charts as versioned assets
+- Add a lightweight data dictionary for the Walmart fields
+- Break the notebook into reusable pipeline scripts
+- Save trained model artifacts for reproducible forecasting demos
