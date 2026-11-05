@@ -40,12 +40,24 @@ Demand-Forecasting-Project/
 - Holiday-aware demand patterns
 - Comparison between statistical, boosting, and neural approaches
 
-## Reported outcome
+## Evaluation status
 
-- `XGBoost` is the strongest overall performer in the current notebook
-- `SARIMA` provides a simpler baseline
-- `Prophet` adds interpretability and multi-seasonality support
-- `LSTM` captures longer temporal structure but requires a heavier environment
+The XGBoost section now uses calendar periods shared by every store/department:
+training before 2012-02-01, validation from 2012-02-01 through 2012-04-30 for
+early stopping, and an untouched test from 2012-05-01 onward. This represents
+future weekly sales estimation conditional on the supplied covariates; realized
+fuel prices, CPI and unemployment may not be known at forecast time.
+
+Outputs affected by the split were cleared, not recomputed. No new model metrics
+or model ranking are claimed. Other sections still need methodological review,
+including LSTM scaling/features and comparison across different aggregation
+levels and horizons. Historical outputs elsewhere are not new execution results.
+
+Run the small synthetic split regression check without training or downloading data:
+
+```bash
+python -m unittest discover -s tests -v
+```
 
 ## Local setup
 
