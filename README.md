@@ -50,10 +50,19 @@ fuel prices, CPI and unemployment may not be known at forecast time.
 
 Outputs affected by the split were cleared, not recomputed. No new model metrics
 or model ranking are claimed. Other sections still need methodological review,
-including LSTM scaling/features and comparison across different aggregation
+including LSTM features and comparison across different aggregation
 levels and horizons. Historical outputs elsewhere are not new execution results.
 
-Run the small synthetic split regression check without training or downloading data:
+The LSTM scaler is fitted only on rows before the first held-out target,
+including the training sequence history and targets. The same fitted scaler
+transforms both periods and reverses predictions to sales units. LSTM outputs
+and downstream comparisons were cleared, not recomputed. This fixes scaling
+only: feature engineering still uses full-series means/statistics, and the
+held-out period is also used for early stopping. Its metrics are therefore not
+an independent future evaluation. Recursive forecast feature updates also need
+review before operational use.
+
+Run the small synthetic split and scaling regression checks without training or downloading data:
 
 ```bash
 python -m unittest discover -s tests -v
