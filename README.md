@@ -57,8 +57,11 @@ The LSTM scaler is fitted only on rows before the first held-out target,
 including the training sequence history and targets. The same fitted scaler
 transforms both periods and reverses predictions to sales units. LSTM outputs
 and downstream comparisons were cleared, not recomputed. This fixes scaling
-only: feature engineering still uses full-series means/statistics, and the
-held-out period is also used for early stopping. Its metrics are therefore not
+and historical-feature leakage: lag fallbacks and month/week statistics now
+use expanding history, never later sales. Feature rows include their observed
+sales and are used only as inputs preceding the prediction target. The builder
+requires one chronologically ordered series with unique dates. The
+held-out period is still used for early stopping. Its metrics are therefore not
 an independent future evaluation. Recursive forecast feature updates also need
 review before operational use.
 
